@@ -23,5 +23,8 @@ go mod init googleauth
 ### Run
 
 ```
+export SECRET_SESSION_KEY=""
+export GOOGLE_KEY=""
+export GOOGLE_SECRET=""
 go run main.go
 ```

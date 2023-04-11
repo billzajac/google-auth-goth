@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 
 	"log"
 
@@ -16,9 +17,9 @@ import (
 
 func main() {
 
-	key := "Secret-session-key" // Replace with your SESSION_SECRET or similar
-	maxAge := 86400 * 30        // 30 days
-	isProd := false             // Set to true when serving over https
+	key := os.Getenv("SECRET_SESSION_KEY")
+	maxAge := 86400 * 30 // 30 days
+	isProd := false      // Set to true when serving over https
 
 	store := sessions.NewCookieStore([]byte(key))
 	store.MaxAge(maxAge)
@@ -29,7 +30,8 @@ func main() {
 	gothic.Store = store
 
 	goth.UseProviders(
-		google.New("our-google-client-id", "our-google-client-secret", "http://localhost:3000/auth/google/callback", "email", "profile"),
+		//google.New(os.Getenv("GOOGLE_KEY"), os.Getenv("GOOGLE_SECRET"), "http://localhost:3000/auth/google/callback", "email", "profile"),
+		google.New(os.Getenv("GOOGLE_KEY"), os.Getenv("GOOGLE_SECRET"), "http://localhost:3000/auth/google/callback"),
 	)
 
 	p := pat.New()
